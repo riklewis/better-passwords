@@ -1,16 +1,5 @@
-=== Better Passwords ===
-Contributors: bettersecurity, riklewis
-Tags: better, security, passwords, haveibeenpwned, pwned, hibp
-Requires at least: 3.5
-Tested up to: 5.0
-Stable tag: trunk
-Requires PHP: 5.6
-License: GPLv3
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
-
-Stop use of a bad passwords, including those in the Have I Been Pwned breached password database
-
-== Description ==
+# Better Passwords
+This is a Wordpress plugin that stops the use of a bad passwords, including those in the Have I Been Pwned breached password database.
 
 This plugin sets a default minimum password length of 10 characters, to ensure that passwords are suitably long that they are hard to guess.  However, it does not insist on any complexity rules, such as digits and special characters, as length is the most important thing when making a password hard to guess.
 
