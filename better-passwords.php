@@ -2,8 +2,8 @@
 /*
 Plugin Name:  Better Passwords
 Description:  Stop use of a bad passwords, including those in the Have I Been Pwned breached password database
-Version:      1.0.0
-Author:       Better Security, Rik Lewis
+Version:      1.0
+Author:       Better Security
 Author URI:   https://bettersecurity.co
 License:      GPL3
 License URI:  https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -36,7 +36,7 @@ function bp_validate($errors) {
       //calculate hash and hit API
       $hash = sha1($pass1);
       $prefix = substr($hash,0,5);
-      $suffix = substr($hash,5
+      $suffix = substr($hash,5);
       $resp = wp_remote_get("https://api.pwnedpasswords.com/range/" . $prefix);
       if(!is_wp_error($resp)) {
 
@@ -48,10 +48,10 @@ function bp_validate($errors) {
 
             //add error if count is positive
   	        $errors->add('pass',__(
-              This means that this password is vulnerable to credential stuffing attacks. <a href='" . esc_url("https://haveibeenpwned.com/Passwords") . "'>Learn More</a>.",'bp-text')
+              "<strong>Please choose a better password</strong>: This password has been found in at least <strong>" . $count . "</strong> data breaches.<br>
+              This means that this password is vulnerable to credential stuffing attacks. <a href='" . esc_url("https://haveibeenpwned.com/Passwords") . "' target='_blank'>Learn More</a>.",'bp-text')
             );
           }
-          "<strong>Please choose a better password</strong>: This password has been found in at least <strong>" . $count . "</strong> data breaches.<br>
         }
       }
     }
