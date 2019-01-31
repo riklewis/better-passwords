@@ -14,15 +14,25 @@ Domain Path:  /languages
 //prevent direct access
 defined('ABSPATH') or die('Forbidden');
 
-//validate passwor
+/*
+------------------------- Password valdation --------------------------
+*/
+
+//validate password
 function bp_validate($errors) {
 
   //check password is set
   if(isset($_POST['pass1']) && !empty($_POST['pass1'])) {
 
+    //get minimum password length
+    $min = 10;
+    $settings = get_option('better-passwords-settings');
+  	if($settings['better-passwords-min-length']) {
+      $min = $settings['better-passwords-min-length']*1;
+    }
+
     //check password length
     $pass1 = $_POST['pass1'];
-    $min = 10; //todo: make this a setting
     if(strlen($pass1)<$min) {
 
       //add error if less than minimum
@@ -61,3 +71,57 @@ function bp_validate($errors) {
 //add actions
 add_action('validate_password_reset', 'bp_validate');
 add_action("user_profile_update_errors", 'bp_validate');
+
+/*
+----------------------------- Settings ------------------------------
+*/
+
+//add settings page
+function bp_menus() {
+	add_options_page(__('Better Passwords','bp-text'), __('Better Passwords','bp-text'), 'manage_options', 'better-passwords-settings', 'bp_show_settings');
+}
+
+//add the settings
+function bp_settings() {
+	register_setting('better-passwords','better-passwords-settings');
+	add_settings_section('better-passwords-section', __('Password Settings', 'bp-text'), 'bp_section', 'better-passwords');
+	add_settings_field('better-paswords-min-length', __('Minimum Password Length', 'bp-text'), 'bp_min_length', 'better-passwords', 'better-passwords-section');
+}
+
+//allow the settings to be stored
+add_filter('whitelist_options', function($whitelist_options) {
+  $whitelist_options['better-passwords'][] = 'better-paswords-min-length';
+  return $whitelist_options;
+});
+
+//define output for settings page
+function bp_show_settings() {
+  echo '<div class="wrap">';
+  echo '  <h1>' . __('Better Passwords', 'bp-text') . '</h1>';
+  echo '  <form action="options.php" method="post">';
+	settings_fields('better-passwords');
+  do_settings_sections('better-passwords');
+	submit_button();
+  echo '  </form>';
+  echo '</div>';
+}
+
+//define output for settings section
+function bp_section() {
+  // No output required for section
+}
+
+//defined output for settings
+function bp_min_length() {
+	$settings = get_option('better-passwords-settings');
+	$value = ($settings['better-paswords-min-length'] ?: "10");
+  echo '<input id="better-paswords-min-length" name="' . 'better-passwords-settings[better-paswords-min-length]" type="number" value="' . $value . '" min="1">';
+}
+
+//add actions
+add_action('admin_menu','bp_menus');
+add_action('admin_init','bp_settings');
+
+/*
+----------------------------- The End ------------------------------
+*/
