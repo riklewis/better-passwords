@@ -85,12 +85,12 @@ function bp_menus() {
 function bp_settings() {
 	register_setting('better-passwords','better-passwords-settings');
 	add_settings_section('better-passwords-section', __('Password Settings', 'bp-text'), 'bp_section', 'better-passwords');
-	add_settings_field('better-paswords-min-length', __('Minimum Password Length', 'bp-text'), 'bp_min_length', 'better-passwords', 'better-passwords-section');
+	add_settings_field('better-passwords-min-length', __('Minimum Password Length', 'bp-text'), 'bp_min_length', 'better-passwords', 'better-passwords-section');
 }
 
 //allow the settings to be stored
 add_filter('whitelist_options', function($whitelist_options) {
-  $whitelist_options['better-passwords'][] = 'better-paswords-min-length';
+  $whitelist_options['better-passwords'][] = 'better-passwords-min-length';
   return $whitelist_options;
 });
 
@@ -114,8 +114,8 @@ function bp_section() {
 //defined output for settings
 function bp_min_length() {
 	$settings = get_option('better-passwords-settings');
-	$value = ($settings['better-paswords-min-length'] ?: "10");
-  echo '<input id="better-paswords-min-length" name="' . 'better-passwords-settings[better-paswords-min-length]" type="number" value="' . $value . '" min="1">';
+	$value = ($settings['better-passwords-min-length'] ?: "10");
+  echo '<input id="better-passwords-min-length" name="' . 'better-passwords-settings[better-passwords-min-length]" type="number" value="' . $value . '" min="1">';
 }
 
 //add actions
