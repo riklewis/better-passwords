@@ -37,7 +37,8 @@ function bp_validate($errors) {
 
       //add error if less than minimum
       $errors->add('pass',__(
-        "<strong>Please choose a better password</strong>: This password is less than <strong>" . $min . "</strong> characters long.<br>
+        "<img src='/wp-content/plugins/better-passwords/assets/icon-36x36.png' align='left' style='margin-right:8px'>
+        <strong>Please choose a better password</strong>: This password is less than <strong>" . $min . "</strong> characters long.<br>
         This means that this password is vulnerable to brute force attacks as it could be relatively easily guessed.",'bp-text')
       );
     }
@@ -58,7 +59,8 @@ function bp_validate($errors) {
 
             //add error if count is positive
   	        $errors->add('pass',__(
-              "<strong>Please choose a better password</strong>: This password has been found in at least <strong>" . $count . "</strong> data breaches.<br>
+              "<img src='/wp-content/plugins/better-passwords/assets/icon-36x36.png' align='left' style='margin-right:8px'>
+              <strong>Please choose a better password</strong>: This password has been found in at least <strong>" . $count . "</strong> data breaches.<br>
               This means that this password is vulnerable to credential stuffing attacks. <a href='" . esc_url("https://haveibeenpwned.com/Passwords") . "' target='_blank'>Learn More</a>.",'bp-text')
             );
           }
