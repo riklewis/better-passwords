@@ -130,5 +130,57 @@ add_action('admin_menu','bp_menus');
 add_action('admin_init','bp_settings');
 
 /*
+------------------------- Password Hashing ------------------------
+*/
+
+//check PHP version is high enough
+if(version_compare(phpversion(), '5.5', '>=')) {
+
+  //verify a user's entered password
+  function wp_check_password($password, $hash, $user_id = '') {
+
+    //check user is specified and hash starts with default prefix
+    if($user_id && strpos($hash, '$P$') === 0) {
+
+      //get/set global varible
+      global $wp_hasher;
+      if(empty($wp_hasher)) {
+        require_once(ABSPATH . WPINC . '/class-phpass.php');
+        $wp_hasher = new PasswordHash(8, true);
+      }
+
+      //check the password hash matches with default algorithm
+      if($wp_hasher->CheckPassword($password, $hash)) {
+
+        //generate new hash with bcrypt and update user record
+        $hash = wp_set_password($password, $user_id);
+      }
+    }
+
+    //check the password hash matches
+    $check = password_verify($password, $hash);
+    return apply_filters('check_password', $check, $password, $hash, $user_id);
+  }
+
+  //update user record with new bcrypt generated hash
+  function wp_set_password($password, $user_id) {
+    //generate new hash with bcrypt
+    $hash = wp_hash_password($password);
+
+    //update user record
+    global $wpdb;
+    $wpdb->update($wpdb->users, ['user_pass' => $hash, 'user_activation_key' => ''], ['ID' => $user_id]);
+    wp_cache_delete($user_id, 'users');
+
+    return $hash;
+  }
+
+  //generate hash using bcrypt
+  function wp_hash_password($password) {
+    return password_hash($password, PASSWORD_BCRYPT);
+  }
+}
+
+/*
 ----------------------------- The End ------------------------------
 */

@@ -6,3 +6,5 @@ This plugin sets a default minimum password length of 10 characters, to ensure t
 This also plugin uses Troy Hunt's [Have I Been Pwned?](https://haveibeenpwned.com/Passwords) Passwords API in order to check a user's potential password against a corpus of breached passwords.
 
 The password itself is never sent to any third party, only a partial hash is sent. This means that the password entered will always be private.
+
+As an added bonus, this plugin also upgrades the hashing algorithm used when storing your password in the database. This is a secure one-way hash creating using the [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm.
