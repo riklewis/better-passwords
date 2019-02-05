@@ -19,7 +19,7 @@ defined('ABSPATH') or die('Forbidden');
 */
 
 //validate password
-function bp_validate($errors) {
+function bsbp_validate($errors) {
 
   //check password is set
   if(isset($_POST['pass1']) && !empty($_POST['pass1'])) {
@@ -71,23 +71,23 @@ function bp_validate($errors) {
 }
 
 //add actions
-add_action('validate_password_reset', 'bp_validate');
-add_action("user_profile_update_errors", 'bp_validate');
+add_action('validate_password_reset', 'bsbp_validate');
+add_action("user_profile_update_errors", 'bsbp_validate');
 
 /*
 ----------------------------- Settings ------------------------------
 */
 
 //add settings page
-function bp_menus() {
-	add_options_page(__('Better Passwords','bp-text'), __('Better Passwords','bp-text'), 'manage_options', 'better-passwords-settings', 'bp_show_settings');
+function bsbp_menus() {
+	add_options_page(__('Better Passwords','bp-text'), __('Better Passwords','bp-text'), 'manage_options', 'better-passwords-settings', 'bsbp_show_settings');
 }
 
 //add the settings
-function bp_settings() {
+function bsbp_settings() {
 	register_setting('better-passwords','better-passwords-settings');
-	add_settings_section('better-passwords-section', __('Password Settings', 'bp-text'), 'bp_section', 'better-passwords');
-	add_settings_field('better-passwords-min-length', __('Minimum Password Length', 'bp-text'), 'bp_min_length', 'better-passwords', 'better-passwords-section');
+	add_settings_section('better-passwords-section', __('Password Settings', 'bp-text'), 'bsbp_section', 'better-passwords');
+	add_settings_field('better-passwords-min-length', __('Minimum Password Length', 'bp-text'), 'bsbp_min_length', 'better-passwords', 'better-passwords-section');
 }
 
 //allow the settings to be stored
@@ -97,7 +97,7 @@ add_filter('whitelist_options', function($whitelist_options) {
 });
 
 //define output for settings page
-function bp_show_settings() {
+function bsbp_show_settings() {
   echo '<div class="wrap">';
   echo '  <div style="padding:12px;background-color:white;margin:24px 0;">';
   echo '    <a href="https://bettersecurity.co" target="_blank" style="display:inline-block;width:100%;">';
@@ -114,27 +114,30 @@ function bp_show_settings() {
 }
 
 //define output for settings section
-function bp_section() {
+function bsbp_section() {
   // No output required for section
 }
 
 //defined output for settings
-function bp_min_length() {
+function bsbp_min_length() {
 	$settings = get_option('better-passwords-settings');
 	$value = ($settings['better-passwords-min-length'] ?: "10");
   echo '<input id="better-passwords-min-length" name="' . 'better-passwords-settings[better-passwords-min-length]" type="number" value="' . $value . '" min="1">';
 }
 
 //add actions
-add_action('admin_menu','bp_menus');
-add_action('admin_init','bp_settings');
+add_action('admin_menu','bsbp_menus');
+add_action('admin_init','bsbp_settings');
 
 /*
 ------------------------- Password Hashing ------------------------
 */
 
 //check PHP version is high enough
-if(version_compare(phpversion(), '5.5', '>=')) {
+if(version_compare(phpversion(), '5.5', '>=') &&
+   !function_exists('wp_check_password') &&
+   !function_exists('wp_set_password') &&
+   !function_exists('wp_hash_password')) {
 
   //verify a user's entered password
   function wp_check_password($password, $hash, $user_id = '') {
@@ -160,7 +163,7 @@ if(version_compare(phpversion(), '5.5', '>=')) {
     //check the password hash matches
     $check = password_verify($password, $hash);
     return apply_filters('check_password', $check, $password, $hash, $user_id);
-  }
+    }
 
   //update user record with new bcrypt generated hash
   function wp_set_password($password, $user_id) {
