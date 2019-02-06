@@ -7,7 +7,7 @@ Author:       Better Security
 Author URI:   https://bettersecurity.co
 License:      GPL3
 License URI:  https://www.gnu.org/licenses/gpl-3.0.en.html
-Text Domain:  bp-text
+Text Domain:  better-pass-text
 Domain Path:  /languages
 */
 
@@ -19,7 +19,7 @@ defined('ABSPATH') or die('Forbidden');
 */
 
 //validate password
-function bsbp_validate($errors) {
+function better_pass_validate($errors) {
 
   //check password is set
   if(isset($_POST['pass1']) && !empty($_POST['pass1'])) {
@@ -37,9 +37,9 @@ function bsbp_validate($errors) {
 
       //add error if less than minimum
       $errors->add('pass',__(
-        "<img src=" . WP_PLUGIN_URL . "'/better-passwords/assets/icon-36x36.png' align='left' style='margin-right:8px'>
+        "<img src='" . WP_PLUGIN_URL . "/better-passwords/assets/icon-36x36.png' align='left' style='margin-right:8px'>
         <strong>Please choose a better password</strong>: This password is less than <strong>" . $min . "</strong> characters long.<br>
-        This means that this password is vulnerable to brute force attacks as it could be relatively easily guessed.",'bp-text')
+        This means that this password is vulnerable to brute force attacks as it could be relatively easily guessed.",'better-pass-text')
       );
     }
     else {
@@ -61,7 +61,7 @@ function bsbp_validate($errors) {
   	        $errors->add('pass',__(
               "<img src='" . WP_PLUGIN_URL . "/better-passwords/assets/icon-36x36.png' align='left' style='margin-right:8px'>
               <strong>Please choose a better password</strong>: This password has been found in at least <strong>" . $count . "</strong> data breaches.<br>
-              This means that this password is vulnerable to credential stuffing attacks. <a href='" . esc_url("https://haveibeenpwned.com/Passwords") . "' target='_blank'>Learn More</a>.",'bp-text')
+              This means that this password is vulnerable to credential stuffing attacks. <a href='" . esc_url("https://haveibeenpwned.com/Passwords") . "' target='_blank'>Learn More</a>.",'better-pass-text')
             );
           }
         }
@@ -71,23 +71,23 @@ function bsbp_validate($errors) {
 }
 
 //add actions
-add_action('validate_password_reset', 'bsbp_validate');
-add_action("user_profile_update_errors", 'bsbp_validate');
+add_action('validate_password_reset', 'better_pass_validate');
+add_action("user_profile_update_errors", 'better_pass_validate');
 
 /*
 ----------------------------- Settings ------------------------------
 */
 
 //add settings page
-function bsbp_menus() {
-	add_options_page(__('Better Passwords','bp-text'), __('Better Passwords','bp-text'), 'manage_options', 'better-passwords-settings', 'bsbp_show_settings');
+function better_pass_menus() {
+	add_options_page(__('Better Passwords','better-pass-text'), __('Better Passwords','better-pass-text'), 'manage_options', 'better-passwords-settings', 'better_pass_show_settings');
 }
 
 //add the settings
-function bsbp_settings() {
+function better_pass_settings() {
 	register_setting('better-passwords','better-passwords-settings');
-	add_settings_section('better-passwords-section', __('Password Settings', 'bp-text'), 'bsbp_section', 'better-passwords');
-	add_settings_field('better-passwords-min-length', __('Minimum Password Length', 'bp-text'), 'bsbp_min_length', 'better-passwords', 'better-passwords-section');
+	add_settings_section('better-passwords-section', __('Password Settings', 'better-pass-text'), 'better_pass_section', 'better-passwords');
+	add_settings_field('better-passwords-min-length', __('Minimum Password Length', 'better-pass-text'), 'better_pass_min_length', 'better-passwords', 'better-passwords-section');
 }
 
 //allow the settings to be stored
@@ -97,14 +97,14 @@ add_filter('whitelist_options', function($whitelist_options) {
 });
 
 //define output for settings page
-function bsbp_show_settings() {
+function better_pass_show_settings() {
   echo '<div class="wrap">';
   echo '  <div style="padding:12px;background-color:white;margin:24px 0;">';
   echo '    <a href="https://bettersecurity.co" target="_blank" style="display:inline-block;width:100%;">';
   echo '      <img src="' . WP_PLUGIN_URL . '/better-passwords/assets/header.png" style="height:64px;">';
   echo '    </a>';
   echo '  </div>';
-  echo '  <h1>' . __('Better Passwords', 'bp-text') . '</h1>';
+  echo '  <h1>' . __('Better Passwords', 'better-pass-text') . '</h1>';
   echo '  <form action="options.php" method="post">';
 	settings_fields('better-passwords');
   do_settings_sections('better-passwords');
@@ -114,20 +114,20 @@ function bsbp_show_settings() {
 }
 
 //define output for settings section
-function bsbp_section() {
+function better_pass_section() {
   // No output required for section
 }
 
 //defined output for settings
-function bsbp_min_length() {
+function better_pass_min_length() {
 	$settings = get_option('better-passwords-settings');
 	$value = ($settings['better-passwords-min-length'] ?: "10");
   echo '<input id="better-passwords-min-length" name="' . 'better-passwords-settings[better-passwords-min-length]" type="number" value="' . $value . '" min="1">';
 }
 
 //add actions
-add_action('admin_menu','bsbp_menus');
-add_action('admin_init','bsbp_settings');
+add_action('admin_menu','better_pass_menus');
+add_action('admin_init','better_pass_settings');
 
 /*
 ------------------------- Password Hashing ------------------------
