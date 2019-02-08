@@ -27,5 +27,8 @@ node_modules
 # Backups
 *.bak
 
-#Logs
+# Logs
 *.log
+
+# SVN
+svn/.svn/
