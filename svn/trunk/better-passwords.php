@@ -2,7 +2,7 @@
 /*
 Plugin Name:  Better Passwords
 Description:  Stop use of a bad passwords, including those in the Have I Been Pwned breached password database
-Version:      1.0
+Version:      1.1
 Author:       Better Security
 Author URI:   https://bettersecurity.co
 License:      GPL3
@@ -183,6 +183,19 @@ if(version_compare(phpversion(), '5.5', '>=') &&
     return password_hash($password, PASSWORD_BCRYPT);
   }
 }
+
+/*
+--------------------- Add links to plugins page ---------------------
+*/
+
+//show settings link
+function better_pass_links($links) {
+	$links[] = sprintf('<a href="%s">%s</a>',admin_url('options-general.php?page=better-passwords-settings'),'Settings');
+	return $links;
+}
+
+//add actions
+add_filter('plugin_action_links_'.plugin_basename(__FILE__),'better_pass_links');
 
 /*
 ----------------------------- The End ------------------------------
