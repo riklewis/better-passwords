@@ -7,4 +7,4 @@ This plugin uses Troy Hunt's [Pwned Passwords API](https://haveibeenpwned.com/Pa
 
 The password itself is never sent to any third party, only a partial hash is sent. This means that the password entered will always be private.
 
-As an added bonus, this plugin also upgrades the hashing algorithm used when storing your password in the database. This is a secure one-way hash created using the [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm.
+As an added bonus, this plugin also upgrades the hashing algorithm used when storing your password in the database. This is a secure one-way hash created using the [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt) or [Argon2](https://en.wikipedia.org/wiki/Argon2) algorithm.
