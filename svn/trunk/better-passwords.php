@@ -2,7 +2,7 @@
 /*
 Plugin Name:  Better Passwords
 Description:  Stop use of a bad passwords, including those in the Have I Been Pwned breached password database
-Version:      1.4
+Version:      1.5
 Author:       Better Security
 Author URI:   https://bettersecurity.co
 License:      GPL3
@@ -27,7 +27,7 @@ function better_pass_validate($errors) {
     //get minimum password length
     $min = 10;
     $settings = get_option('better-passwords-settings');
-  	if($settings['better-passwords-min-length']) {
+  	if(isset($settings['better-passwords-min-length']) && $settings['better-passwords-min-length']) {
       $min = $settings['better-passwords-min-length']*1;
     }
 
@@ -238,11 +238,13 @@ if(!function_exists('wp_hash_password')) {
 
 function better_pass_get_algorithm() {
   $settings = get_option('better-passwords-settings');
-  switch($settings['better-passwords-algorithm']) {
-    case "ARGON2I":
-      return PASSWORD_ARGON2I;
-    case "ARGON2ID":
-      return PASSWORD_ARGON2ID;
+  if(isset($settings['better-passwords-algorithm'])) {
+    switch($settings['better-passwords-algorithm']) {
+      case "ARGON2I":
+        return PASSWORD_ARGON2I;
+      case "ARGON2ID":
+        return PASSWORD_ARGON2ID;
+    }
   }
   return PASSWORD_BCRYPT;
 }
