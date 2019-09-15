@@ -36,11 +36,12 @@ function better_pass_validate($errors) {
     if(strlen($pass1)<$min) {
 
       //add error if less than minimum
-      $errors->add('pass',__(
-        "<img src='" . WP_PLUGIN_URL . "/better-passwords/icon-36x36.png' align='left' style='margin-right:8px'>
-        <strong>Please choose a better password</strong>: This password is less than <strong>" . $min . "</strong> characters long.<br>
-        This means that this password is vulnerable to brute force attacks as it could be relatively easily guessed.",'better-pass-text')
-      );
+      $mess = "<img src='" . WP_PLUGIN_URL . "/better-passwords/icon-36x36.png' align='left' style='margin-right:8px'><strong>";
+      $mess .= __("Please choose a better password", 'better-pass-text') . "</strong>: ";
+      $mess .= __("This password is less than", 'better-pass-text') . " <strong>" . $min . "</strong> ";
+      $mess .= __("characters long.", 'better-pass-text') . "<br>";
+      $mess .= __("This means that this password is vulnerable to brute force attacks as it could be relatively easily guessed.",'better-pass-text');
+      $errors->add('pass',$mess);
     }
     else {
 
@@ -58,11 +59,13 @@ function better_pass_validate($errors) {
           if($count>0) {
 
             //add error if count is positive
-  	        $errors->add('pass',__(
-              "<img src='" . WP_PLUGIN_URL . "/better-passwords/icon-36x36.png' align='left' style='margin-right:8px'>
-              <strong>Please choose a better password</strong>: This password has been found in at least <strong>" . $count . "</strong> data breaches.<br>
-              This means that this password is vulnerable to credential stuffing attacks. <a href='" . esc_url("https://haveibeenpwned.com/Passwords") . "' target='_blank'>Learn More</a>.",'better-pass-text')
-            );
+            $mess = "<img src='" . WP_PLUGIN_URL . "/better-passwords/icon-36x36.png' align='left' style='margin-right:8px'><strong>";
+            $mess .= __("Please choose a better password", 'better-pass-text') . "</strong>: ";
+            $mess .= __("This password has been found in at least", 'better-pass-text') . " <strong>" . $count . "</strong>";
+            $mess .= __("data breaches.", 'better-pass-text') . "<br>";
+            $mess .= __("This means that this password is vulnerable to credential stuffing attacks.", 'better-pass-text') . " <a href='" . esc_url("https://haveibeenpwned.com/Passwords") . "' target='_blank'>";
+            $mess .= __("Learn More", 'better-pass-text') . "</a>.";
+  	        $errors->add('pass',$mess);
           }
         }
       }
@@ -147,10 +150,10 @@ function better_pass_algorithm() {
 	$settings = get_option('better-passwords-settings');
 	$value = ($settings['better-passwords-algorithm'] ?: "BCRYPT");
   echo '<select id="better-passwords-algorithm" name="' . 'better-passwords-settings[better-passwords-algorithm]">';
-  better_pass_create_option($value,"BCRYPT","Good (Bcrypt) - default",true);
-  better_pass_create_option($value,"ARGON2I","Better (Argon2i) - requires PHP 7.2+",better_pass_check_algorithm(PASSWORD_ARGON2I));
-  better_pass_create_option($value,"ARGON2ID","Best (Argon2id) - requires PHP 7.3+",better_pass_check_algorithm(PASSWORD_ARGON2ID));
-  echo '</select> <em style="font-size:.8em;padding-left:8px;">Please note: This takes affect when a user next logs in or changes their password</em>';
+  better_pass_create_option($value,"BCRYPT",__("Good", 'better-pass-text') . " (Bcrypt) - " . __("default", 'better-pass-text'),true);
+  better_pass_create_option($value,"ARGON2I",__("Better", 'better-pass-text') . " (Argon2i) - " . __("requires PHP 7.2+", 'better-pass-text'),better_pass_check_algorithm(PASSWORD_ARGON2I));
+  better_pass_create_option($value,"ARGON2ID",__("Best", 'better-pass-text') . " (Argon2id) - " . __("requires PHP 7.3+", 'better-pass-text'),better_pass_check_algorithm(PASSWORD_ARGON2ID));
+  echo '</select> <em style="font-size:.8em;padding-left:8px;">' . __('Please note: This takes affect when a user next logs in or changes their password', 'better-pass-text') . '</em>';
 }
 
 function better_pass_create_option($def,$val,$rep,$boo) {
@@ -255,7 +258,7 @@ function better_pass_get_algorithm() {
 
 //show settings link
 function better_pass_links($links) {
-	$links[] = sprintf('<a href="%s">%s</a>',admin_url('options-general.php?page=better-passwords-settings'),'Settings');
+	$links[] = sprintf('<a href="%s">%s</a>',admin_url('options-general.php?page=better-passwords-settings'),__('Settings', 'better-pass-text'));
 	return $links;
 }
 
