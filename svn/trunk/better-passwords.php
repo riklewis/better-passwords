@@ -36,7 +36,7 @@ function better_pass_validate($errors) {
     if(strlen($pass1)<$min) {
 
       //add error if less than minimum
-      $mess = "<img src='" . WP_PLUGIN_URL . "/better-passwords/icon-36x36.png' align='left' style='margin-right:8px'><strong>";
+      $mess = "<img src='" . plugins_url('icon-36x36.png', __FILE__) . "' align='left' style='margin-right:8px'><strong>";
       $mess .= __("Please choose a better password", 'better-pass-text') . "</strong>: ";
       $mess .= __("This password is less than", 'better-pass-text') . " <strong>" . $min . "</strong> ";
       $mess .= __("characters long.", 'better-pass-text') . "<br>";
@@ -59,7 +59,7 @@ function better_pass_validate($errors) {
           if($count>0) {
 
             //add error if count is positive
-            $mess = "<img src='" . WP_PLUGIN_URL . "/better-passwords/icon-36x36.png' align='left' style='margin-right:8px'><strong>";
+            $mess = "<img src='" . plugins_url('icon-36x36.png', __FILE__) . "' align='left' style='margin-right:8px'><strong>";
             $mess .= __("Please choose a better password", 'better-pass-text') . "</strong>: ";
             $mess .= __("This password has been found in at least", 'better-pass-text') . " <strong>" . $count . "</strong>";
             $mess .= __("data breaches.", 'better-pass-text') . "<br>";
@@ -106,7 +106,7 @@ function better_pass_show_settings() {
   echo '<div class="wrap">';
   echo '  <div style="padding:12px;background-color:white;margin:24px 0;">';
   echo '    <a href="https://bettersecurity.co" target="_blank" style="display:inline-block;width:100%;">';
-  echo '      <img src="' . WP_PLUGIN_URL . '/better-passwords/header.png" style="height:64px;">';
+  echo '      <img src="' . plugins_url('header.png', __FILE__) . '" style="height:64px;">';
   echo '    </a>';
   echo '  </div>';
   echo '  <div style="margin:0 0 24px 0;">';
