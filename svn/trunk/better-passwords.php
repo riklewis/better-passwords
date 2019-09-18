@@ -135,7 +135,7 @@ function better_pass_badge_php() {
 
 //define output for settings section
 function better_pass_section() {
-  // No output required for section
+  echo '<hr>';
 }
 
 //defined output for settings
