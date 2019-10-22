@@ -153,7 +153,7 @@ function better_pass_algorithm() {
   better_pass_create_option($value,"BCRYPT",__("Good", 'better-pass-text') . " (Bcrypt) - " . __("default", 'better-pass-text'),true);
   better_pass_create_option($value,"ARGON2I",__("Better", 'better-pass-text') . " (Argon2i) - " . __("requires PHP 7.2+", 'better-pass-text'),better_pass_check_algorithm('PASSWORD_ARGON2I'));
   better_pass_create_option($value,"ARGON2ID",__("Best", 'better-pass-text') . " (Argon2id) - " . __("requires PHP 7.3+", 'better-pass-text'),better_pass_check_algorithm('PASSWORD_ARGON2ID'));
-  echo '</select> <em style="font-size:.8em;padding-left:8px;">' . __('This takes affect when a user next logs in or changes their password', 'better-pass-text') . '</em>';
+  echo '</select><br><small><em>' . __('This takes affect when a user next logs in or changes their password', 'better-pass-text') . '</em></small>';
 }
 
 function better_pass_create_option($def,$val,$rep,$boo) {
