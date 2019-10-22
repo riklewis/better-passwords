@@ -151,8 +151,8 @@ function better_pass_algorithm() {
 	$value = ($settings['better-passwords-algorithm'] ?: "BCRYPT");
   echo '<select id="better-passwords-algorithm" name="' . 'better-passwords-settings[better-passwords-algorithm]">';
   better_pass_create_option($value,"BCRYPT",__("Good", 'better-pass-text') . " (Bcrypt) - " . __("default", 'better-pass-text'),true);
-  better_pass_create_option($value,"ARGON2I",__("Better", 'better-pass-text') . " (Argon2i) - " . __("requires PHP 7.2+", 'better-pass-text'),better_pass_check_algorithm(PASSWORD_ARGON2I));
-  better_pass_create_option($value,"ARGON2ID",__("Best", 'better-pass-text') . " (Argon2id) - " . __("requires PHP 7.3+", 'better-pass-text'),better_pass_check_algorithm(PASSWORD_ARGON2ID));
+  better_pass_create_option($value,"ARGON2I",__("Better", 'better-pass-text') . " (Argon2i) - " . __("requires PHP 7.2+", 'better-pass-text'),better_pass_check_algorithm('PASSWORD_ARGON2I'));
+  better_pass_create_option($value,"ARGON2ID",__("Best", 'better-pass-text') . " (Argon2id) - " . __("requires PHP 7.3+", 'better-pass-text'),better_pass_check_algorithm('PASSWORD_ARGON2ID'));
   echo '</select> <em style="font-size:.8em;padding-left:8px;">' . __('This takes affect when a user next logs in or changes their password', 'better-pass-text') . '</em>';
 }
 
@@ -160,7 +160,8 @@ function better_pass_create_option($def,$val,$rep,$boo) {
   echo '  <option value="' . $val . '"' . ($def===$val ? ' selected' : '') . ($boo ? '' : ' disabled') . '>' . $rep . '</option>';
 }
 
-function better_pass_check_algorithm($alg) {
+function better_pass_check_algorithm($nam) {
+	$alg = (defined($nam) ? constant($nam) : false);
   if(is_int($alg)) {
     try {
       return !!password_hash('test',$alg);
