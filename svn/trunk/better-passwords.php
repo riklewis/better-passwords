@@ -122,7 +122,7 @@ function better_pass_show_settings() {
 }
 
 function better_pass_badge_php() {
-  $ver = phpversion();
+  $ver = better_pass_phpversion();
   $col = "critical";
   if(version_compare($ver,'7.2','>=')) {
     $col = "important";
@@ -131,6 +131,10 @@ function better_pass_badge_php() {
     $col = "success";
   }
   return 'https://img.shields.io/badge/PHP-' . $ver . '-' . $col . '.svg?logo=php&style=for-the-badge';
+}
+
+function better_pass_phpversion() {
+	return explode('-',phpversion())[0]; //trim any extra information
 }
 
 //define output for settings section
