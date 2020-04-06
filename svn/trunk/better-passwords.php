@@ -313,12 +313,12 @@ function better_pass_links($links) {
 }
 
 //show Pro link
-function better_pass_meta($links, $file) {
+/*function better_pass_meta($links, $file) {
 	if($file===plugin_basename(__FILE__)) {
 		$links[] = '<a href="plugin-install.php?tab=plugin-information&plugin=better-security-pro&TB_iframe=true&width=600&height=550"><em><strong>' . __('Check out Better Security Pro', 'better-pass-text') . '</strong></em></a>';
 	}
 	return $links;
-}
+}*/
 
 //add actions
 if(is_admin()) {
