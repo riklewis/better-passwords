@@ -2,7 +2,7 @@
 /*
 Plugin Name:  Better Passwords
 Description:  Stop use of a bad passwords, including those in the Have I Been Pwned breached password database
-Version:      1.7
+Version:      1.8
 Author:       Better Security
 Author URI:   https://bettersecurity.co
 License:      GPL3
@@ -61,7 +61,7 @@ function better_pass_validate($errors) {
             //add error if count is positive
             $mess = "<img src='" . plugins_url('icon-36x36.png', __FILE__) . "' align='left' style='margin-right:8px'><strong>";
             $mess .= __("Please choose a better password", 'better-pass-text') . "</strong>: ";
-            $mess .= __("This password has been found in at least", 'better-pass-text') . " <strong>" . $count . "</strong>";
+            $mess .= __("This password has been found in at least", 'better-pass-text') . " <strong>" . $count . "</strong> ";
             $mess .= __("data breaches.", 'better-pass-text') . "<br>";
             $mess .= __("This means that this password is vulnerable to credential stuffing attacks.", 'better-pass-text') . " <a href='" . esc_url("https://haveibeenpwned.com/Passwords") . "' target='_blank'>";
             $mess .= __("Learn More", 'better-pass-text') . "</a>.";
@@ -211,7 +211,7 @@ function better_pass_create_option($def,$val,$rep,$boo) {
 
 function better_pass_check_algorithm($nam) {
 	$alg = (defined($nam) ? constant($nam) : false);
-  if(is_int($alg)) {
+  if(is_int($alg) or is_string($alg)) {
     try {
       return !!password_hash('test',$alg);
     }
